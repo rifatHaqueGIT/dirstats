@@ -22,7 +22,7 @@ struct Results {
   // 5 most common file types, as reported by the file utility,
   // sorted by frequency
   std::vector<std::string> most_common_types;
-  // list of groups of duplicate files
+  // list of groups of duplicate files (top 5)
   //   duplicate_files.size() == number of groups
   //   duplicate_files[0].size() == size of first group
   //   duplicate_files[0][0] == path to the first file in first group
