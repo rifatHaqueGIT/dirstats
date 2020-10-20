@@ -18,7 +18,8 @@ def dig(pth):
 
 def get_dir_stats(dname):
     all_files = collections.defaultdict(list)
-    n_dirs = -1
+    n_files = 0
+    n_dirs = 0
     largest_file = ""
     largest_file_size = -1
     total_file_size = 0
@@ -35,10 +36,11 @@ def get_dir_stats(dname):
             ft = get_file_type(pth)
             ftypes[ft] += 1
         n_dirs += len(dirs)
+        n_files += len(files)
 
     print(f"Largest file:      {largest_file}")
     print(f"Largest file size: {largest_file_size}")
-    print(f"Number of files:   {len(all_files)}")
+    print(f"Number of files:   {n_files}")
     print(f"Number of dirs:    {n_dirs}")
     print(f"Total file size:   {total_file_size}")
 
