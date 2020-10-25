@@ -1,7 +1,7 @@
 SOURCES = main.cpp digester.cpp getDirStats.cpp
 CPPC = g++
 CPPFLAGS = -c -Wall -O2
-LDFLAGS = -lcrypto
+LDLIBS = -lcrypto
 OBJECTS = $(SOURCES:.cpp=.o)
 TARGET = dirstats
 
@@ -16,7 +16,7 @@ $(OBJECTS): Makefile
 	$(CPPC) $(CPPFLAGS) $< -o $@
 
 $(TARGET): $(OBJECTS)
-	$(CPPC) -o $@ $(LDFLAGS) $(OBJECTS)
+	$(CPPC) -o $@ $(OBJECTS) $(LDLIBS)
 
 .PHONY: clean
 clean:
