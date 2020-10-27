@@ -48,10 +48,10 @@ getDirStats(const std::string & dir_name, Results & res)
   res.n_dirs = 333;
   res.all_files_size = 1000000;
   res.most_common_types = {
-    "C source, ASCII text",
-    "makefile script, ASCII text",
-    "C++ source, ASCII text",
-    "directory"
+    "C source",
+    "makefile script",
+    "C++ source",
+    "PNG image"
   };
   std::vector<std::string> group1;
   group1.push_back(dir_name + "/file1.cpp");
