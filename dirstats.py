@@ -34,7 +34,7 @@ def update_whist(whist, fname):
             if c < 97 or c > 122:
                 # on non-alpha char update histogram and reset word
                 if wl >= 3:
-                    word = mm[i - wl : i].decode()
+                    word = mm[i - wl : i].decode().lower()
                     whist[word] += 1
                 wl = 0
             else:

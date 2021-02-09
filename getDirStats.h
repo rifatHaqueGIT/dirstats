@@ -11,7 +11,6 @@
 
 struct Results
 {
-  using str_freq = std::pair<std::string, int>;
   // path of the largest file in the directory
   std::string largest_file_path;
   // size of the largest file
