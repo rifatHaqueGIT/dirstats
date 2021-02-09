@@ -7,52 +7,38 @@
 #include <cstdio>
 #include <cstdlib>
 
-void usage( const std::string & pname, int exit_code)
+void usage(const std::string & pname, int exit_code)
 {
-  printf( "Usage: %s directory_name\n", pname.c_str());
-  exit( exit_code);
+  printf("Usage: %s N directory_name\n", pname.c_str());
+  exit(exit_code);
 }
 
-std::string vs2str( const std::vector<std::string> & arr)
+int main(int argc, char ** argv)
 {
-  std::string res;
-  bool first = true;
-  for( const auto & s : arr) {
-    if( ! first) res += " ";
-    first = false;
-    res += s;
-  }
-  return res;
-}
+  if (argc != 3) usage(argv[0], -1);
 
-int main( int argc, char ** argv)
-{
-  if( argc != 2) usage( argv[0], -1);
-
-  Results res;
-  auto success = getDirStats( argv[1], res);
-  if( ! success) {
+  Results res = getDirStats(argv[2], std::stoi(argv[1]));
+  if (! res.valid) {
     printf("Could not get dir stats.\n");
+    return 0;
   }
-  else {
-    printf("--------------------------------------------------------------\n");
-    printf("Largest file:      %s\n", res.largest_file_path.c_str());
-    printf("Largest file size: %ld\n", res.largest_file_size);
-    printf("Number of files:   %ld\n", res.n_files);
-    printf("Number of dirs:    %ld\n", res.n_dirs);
-    printf("Total file size:   %ld\n", res.all_files_size);
-    printf("Most common file types:\n");
-    for( auto & type : res.most_common_types)
-      printf("  - %s\n", type.c_str());
-    int gcount = 1;
-    for( auto & group : res.duplicate_files) {
-      printf("Duplicate files - group %d:\n", gcount ++);
-      for( auto & f : group) {
-        printf("  - %s\n", f.c_str());
-      }
-    }
-    printf("--------------------------------------------------------------\n");
+  printf("--------------------------------------------------------------\n");
+  printf("Largest file:      \"%s\"\n", res.largest_file_path.c_str());
+  printf("Largest file size: %ld\n", res.largest_file_size);
+  printf("Number of files:   %ld\n", res.n_files);
+  printf("Number of dirs:    %ld\n", res.n_dirs);
+  printf("Total file size:   %ld\n", res.all_files_size);
+  printf("Most common file types:\n");
+  for (auto & type : res.most_common_types)
+    printf("  - %4dx \"%s\"\n", type.second, type.first.c_str());
+  printf("Most common words:\n");
+  for (auto & type : res.most_common_words)
+    printf("  - %4dx \"%s\"\n", type.second, type.first.c_str());
+  int gcount = 1;
+  for (auto & group : res.duplicate_files) {
+    printf("Duplicate files - group %d:\n", gcount++);
+    for (auto & f : group) printf("  - \"%s\"\n", f.c_str());
   }
-
+  printf("--------------------------------------------------------------\n");
   return 0;
 }
