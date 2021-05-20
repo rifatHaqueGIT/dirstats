@@ -30,10 +30,10 @@ int main(int argc, char ** argv)
   printf("Total file size:   %ld\n", res.all_files_size);
   printf("Most common file types:\n");
   for (auto & type : res.most_common_types)
-    printf("  - %4dx \"%s\"\n", type.second, type.first.c_str());
+    printf("  - \"%s\" x %d\n", type.first.c_str(), type.second);
   printf("Most common words:\n");
   for (auto & type : res.most_common_words)
-    printf("  - %4dx \"%s\"\n", type.second, type.first.c_str());
+    printf("  - \"%s\" x %d\n", type.first.c_str(), type.second);
   int gcount = 1;
   for (auto & group : res.duplicate_files) {
     printf("Duplicate files - group %d:\n", gcount++);

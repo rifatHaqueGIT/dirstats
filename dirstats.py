@@ -1,6 +1,6 @@
 #!/bin/env python3
 
-import os, sys, subprocess, shlex, collections, hashlib, mmap
+import os, sys, subprocess, collections, hashlib
 
 
 def get_file_type(pth):
@@ -56,7 +56,9 @@ def get_dir_stats(n, dname):
     largest_file_size = -1
     total_file_size = 0
     ftypes = collections.defaultdict(int)
+    valid = False
     for root, dirs, files in os.walk(dname, followlinks=True):
+        valid = True
         for file in files:
             # print("Processing", root, file)
             pth = os.path.join(root, file)
@@ -65,7 +67,7 @@ def get_dir_stats(n, dname):
             except KeyboardInterrupt:
                 raise
             except:
-                print("Could not read file: ", pth)
+                print("# error: could not read file: ", pth)
                 continue
             update_whist(whist, pth)
             s = os.path.getsize(pth)
@@ -78,6 +80,9 @@ def get_dir_stats(n, dname):
         n_dirs += len(dirs)
         n_files += len(files)
 
+    if not valid:
+      print("Could not get dir stats.")
+      sys.exit(0)
     print("--------------------------------------------------------------");
     print(f"Largest file:      \"{largest_file}\"")
     print(f"Largest file size: {largest_file_size}")
@@ -90,14 +95,14 @@ def get_dir_stats(n, dname):
     ftypes = ftypes[:n]
     print("Most common file types:")
     for ft in ftypes:
-        print(f' - {-ft[0]:4d}x "{ft[1]}"')
+        print(f' - "{ft[1]}" x {-ft[0]:d}')
 
     whist = [(-e[1], e[0]) for e in whist.items()]
     whist = sorted(whist)
     whist = whist[:n]
     print("Most common words:")
     for w in whist:
-        print(f" - {-w[0]:4d}x \"{w[1]}\"")
+        print(f" - \"{w[1]}\" x {-w[0]:d}")
 
     all_files = sorted(all_files.items(), key=lambda x: len(x[1]), reverse=True)[:n]
     gcount = 1
